@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "502986970086",
+    "firebase_url": "https://wan-for-day-default-rtdb.firebaseio.com",
+    "project_id": "wan-for-day",
+    "storage_bucket": "wan-for-day.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502986970086:android:a074189dd4383973fc7c27",
+        "android_client_info": {
+          "package_name": "com.example.sinupsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502986970086-18v59av0oivfbj3uc2tbb1l09dae25lv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sinupsample",
+            "certificate_hash": "38dc8c9c63379f1955ed1f5e44a2a8d2342c3dc4"
+          }
+        },
+        {
+          "client_id": "502986970086-hfdvv10checipuetdrsub0jsv5d7p2d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXlAXSvo_03SFD0a6z8QyTmC9F7ri3yB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502986970086-hfdvv10checipuetdrsub0jsv5d7p2d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
