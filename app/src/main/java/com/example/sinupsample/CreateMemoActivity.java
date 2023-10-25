@@ -13,6 +13,7 @@ import java.util.Date;
 
 public class CreateMemoActivity extends AppCompatActivity {
     public static final int RESULT_CODE_CREATE_MEMO = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
