@@ -35,7 +35,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
                                 Toast.makeText(CreateAccountActivity.this, "アカウントを作成しました！",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(CreateAccountActivity.this, MemoListActivity.class);
+                                Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
