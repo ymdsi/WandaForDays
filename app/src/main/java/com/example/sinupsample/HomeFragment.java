@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     // onCreateView メソッド内で view を宣言して初期化
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -165,4 +166,5 @@ public class HomeFragment extends Fragment {
         }
         return null;
     }
+
 }

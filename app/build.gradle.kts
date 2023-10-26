@@ -52,6 +52,9 @@ dependencies {
     // If you need Firebase Realtime Database
     implementation ("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+//    map関連
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+
 
     // Testing dependencies
     testImplementation ("junit:junit:4.13.2")

@@ -24,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
                 loadFragment(new HomeFragment());
+                return true;
             } else if (itemId == R.id.navigation_map) {
                 // "Map" アイテムが選択されたときの処理
                 loadFragment(new MapsFragment());
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             } else if (itemId == R.id.navigation_folder) {
                 // "Folder" アイテムが選択されたときの処理
-//                loadFragment(new FolderFragment());
+//                loadFragment(new folderFragment());
                 return true;
             } else if (itemId == R.id.navigation_Other) {
                 loadFragment(new OtherFragment());
