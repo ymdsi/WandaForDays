@@ -103,4 +103,13 @@
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:srcCompat="@drawable/inu1" />
+
+    <CheckBox
+        android:id="@+id/login_preservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ログイン状態を保存する"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
