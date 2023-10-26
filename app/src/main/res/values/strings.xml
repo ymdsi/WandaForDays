@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">sinupsample</string>
     <string name="default_web_client_id">502986970086-18v59av0oivfbj3uc2tbb1l09dae25lv.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="a">ホーム</string>
 
 </resources>

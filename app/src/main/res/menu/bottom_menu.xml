@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home_24"
+        android:title="ホーム" />
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/map_24"
+        android:title="地図" />
+    <item
+        android:id="@+id/navigation_board"
+        android:icon="@drawable/board_24"
+        android:title="掲示板" />
+    <item
+        android:id="@+id/navigation_folder"
+        android:icon="@drawable/folder_24"
+        android:title="思い出アルバム" />
+    <item
+        android:id="@+id/navigation_Other"
+        android:icon="@drawable/other_24"
+        android:title="その他機能" />
+
+</menu>

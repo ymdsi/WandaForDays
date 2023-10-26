@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            Intent intent = new Intent(LoginActivity.this, MemoListActivity.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         } else {
 
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                     // MemoListActivityに画面遷移
-                                    Intent intent = new Intent(LoginActivity.this, MemoListActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
