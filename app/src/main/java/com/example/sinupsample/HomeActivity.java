@@ -11,24 +11,19 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-    AsyncNetworkTask task;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        task = new AsyncNetworkTask(this);
-        task.execute("https://api.open-meteo.com/v1/forecast?latitude=35.7&longitude=139.6875&hourly=temperature_2m,soil_temperature_0cm&timezone=Asia%2FTokyo&forecast_days=1");
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         // 初期フラグメントを表示
-//        loadFragment(new HomeFragment());
+        loadFragment(new HomeFragment());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.navigation_home) {
-                // "Home" アイテムが選択されたときの処理
-                Intent intent = new Intent(HomeActivity.this, AsyncNetworkTask.class);
-                startActivity(intent);
+                loadFragment(new HomeFragment());
             } else if (itemId == R.id.navigation_map) {
                 // "Map" アイテムが選択されたときの処理
                 loadFragment(new MapsFragment());
@@ -42,8 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 //                loadFragment(new FolderFragment());
                 return true;
             } else if (itemId == R.id.navigation_Other) {
-                // "Other" アイテムが選択されたときの処理
-//                loadFragment(new OtherFragment());
+                loadFragment(new OtherFragment());
                 return true;
             }
             return false;
