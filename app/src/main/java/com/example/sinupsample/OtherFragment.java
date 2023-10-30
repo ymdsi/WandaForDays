@@ -49,6 +49,42 @@ public class OtherFragment extends Fragment {
             }
         });
 
+        missionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ここにクリック時の処理を追加
+                // 例: ProfileFragment に遷移
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new MissionFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        questionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ここにクリック時の処理を追加
+                // 例: ProfileFragment に遷移
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new QuestionFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ここにクリック時の処理を追加
+                // 例: ProfileFragment に遷移
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new LogoutFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
 
         return view;
     }
