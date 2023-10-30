@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
                     // 最も近い時間に対応する気温と地温を取得
                     double temperature = temperatureArray.getDouble(closestIndex);
                     double soilTemperature = soilTemperatureArray.getDouble(closestIndex);
-//                    double soilTemperature = ;
+//                    double soilTemperature = 19;
                     int imageResource;
 
                     if (soilTemperature <= 25.0) {

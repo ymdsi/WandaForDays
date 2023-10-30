@@ -7,7 +7,7 @@
     <item
         android:id="@+id/navigation_map"
         android:icon="@drawable/map_24"
-        android:title="地図" />
+        android:title="おすすめ店舗" />
     <item
         android:id="@+id/navigation_board"
         android:icon="@drawable/board_24"
@@ -15,7 +15,7 @@
     <item
         android:id="@+id/navigation_folder"
         android:icon="@drawable/folder_24"
-        android:title="思い出アルバム" />
+        android:title="アルバム" />
     <item
         android:id="@+id/navigation_Other"
         android:icon="@drawable/other_24"

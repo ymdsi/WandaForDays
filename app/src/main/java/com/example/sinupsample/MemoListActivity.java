@@ -170,5 +170,7 @@ public class MemoListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
+
 }

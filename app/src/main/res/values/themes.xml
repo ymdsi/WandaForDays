@@ -3,6 +3,7 @@
     <style name="Base.Theme.Sinupsample" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/cream2</item>
         <item name="colorPrimaryContainer">@color/black</item>
+
         <!--上のバー-->
         <item name="colorPrimaryVariant">@color/cream</item>
         <!--文字色-->
