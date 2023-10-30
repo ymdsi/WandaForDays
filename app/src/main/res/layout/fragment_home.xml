@@ -12,8 +12,6 @@
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginTop="240dp"
-        android:layout_marginEnd="105dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/soilTemperatureTextView"
         app:layout_constraintTop_toTopOf="@+id/map_okayama" />
 
