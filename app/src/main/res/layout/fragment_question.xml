@@ -32,8 +32,11 @@
         android:ems="10"
         android:gravity="top"
         android:inputType="text"
-        android:text=" ご要望、お問い合わせ内容をご入力ください"
-        android:textColor="@color/gray"
+        android:hint=" ご要望、お問い合わせ内容をご入力ください"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
