@@ -15,25 +15,25 @@
         android:text="プロフィール"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:backgroundTint="@color/brown2"
+        android:textColor="@color/brown2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/mail_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="10dp"
         android:text="メールアドレス"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Text_profile" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/befor_nameinput"
         android:layout_width="158dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
@@ -41,25 +41,25 @@
         android:inputType="text"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.147"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/befor_nametext" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/after_nameinput"
         android:layout_width="158dp"
         android:layout_height="40dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="220dp"
         android:ems="10"
         android:inputType="text"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintHorizontal_bias="0.856"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/befor_nametext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -69,17 +69,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
+        android:id="@+id/after_nametext"
+        android:layout_width="20dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="220dp"
         android:layout_marginTop="196dp"
         android:text="名"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/dogbreed_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -89,9 +89,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="169dp"
-        android:layout_height="65dp"
+        android:id="@+id/completion_button"
+        android:layout_width="222dp"
+        android:layout_height="74dp"
         android:backgroundTint="@color/pink"
         android:text="完了"
         android:textSize="25dp"
