@@ -101,7 +101,7 @@ public class MemoListActivity extends AppCompatActivity {
                     Intent intent = result.getData();
                     assert intent != null;
                     String[] memo = intent.getStringArrayExtra("memo");
-                    MemoData memoData = new MemoData(uid, memo[0], memo[1], memo[2]);
+                    MemoData memoData = new MemoData(uid, memo[0], memo[1], memo[2], memo[3], memo[4], memo[5]);
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
                     userRef.child("Memo").child(memo[1]).setValue(memoData).addOnCompleteListener(task -> {
                         if (task.isSuccessful()){
