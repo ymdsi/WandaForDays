@@ -20,6 +20,11 @@ public class OtherFragment extends Fragment {
         // Profile_button を取得
         // OtherFragment.java の中で Profile_button のクリックイベントを処理
         TextView profileButton = view.findViewById(R.id.Profile_button);
+        TextView walkButton = view.findViewById(R.id.walk_button);
+        TextView missionButton = view.findViewById(R.id.mission_button);
+        TextView questionButton = view.findViewById(R.id.question_button);
+        TextView logoutButton = view.findViewById(R.id.logout_button);
+
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -27,6 +32,18 @@ public class OtherFragment extends Fragment {
                 // 例: ProfileFragment に遷移
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, new ProfileFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        walkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ここにクリック時の処理を追加
+                // 例: ProfileFragment に遷移
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new WalktimeFragment());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
