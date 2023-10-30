@@ -7,16 +7,56 @@
     tools:context=".LogoutFragment">
 
 
+    <Button
+        android:id="@+id/No_Button"
+        android:layout_width="293dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="264dp"
+        android:layout_marginEnd="56dp"
+        android:backgroundTint="@color/gray"
+        android:text="いいえ"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_Logout" />
+
     <TextView
-        android:id="@+id/Text_profile"
+        android:id="@+id/Text_Logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="ログアウト"
         android:textSize="30dp"
+        android:textColor="@color/brown2"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Yes_Button"
+        android:layout_width="293dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="56dp"
+        android:backgroundTint="@color/pink"
+        android:text="はい"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_Logout" />
+
+    <TextView
+        android:id="@+id/Text_Logout_Mess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="104dp"
+        android:text="ログアウトしますか？"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_Logout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
