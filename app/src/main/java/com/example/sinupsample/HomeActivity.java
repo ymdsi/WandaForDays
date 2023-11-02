@@ -31,11 +31,11 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_board) {
                 // "Board" アイテムが選択されたときの処理
-                Intent intent = new Intent(HomeActivity.this, MemoListActivity.class);
-            startActivity(intent);
+                loadFragment(new WebViewFragment());
+                return true;
             } else if (itemId == R.id.navigation_folder) {
                 // "Folder" アイテムが選択されたときの処理
-//                loadFragment(new folderFragment());
+                loadFragment(new folderFragment());
                 return true;
             } else if (itemId == R.id.navigation_Other) {
                 loadFragment(new OtherFragment());

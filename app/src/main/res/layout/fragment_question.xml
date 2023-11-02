@@ -5,7 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".QuestionFragment">
-
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="37dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:padding="0dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/before_24"
+        app:layout_constraintEnd_toStartOf="@+id/Text_inquiry"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
 
