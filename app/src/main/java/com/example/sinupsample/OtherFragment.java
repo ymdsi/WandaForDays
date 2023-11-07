@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.util.Log;  // Log のインポートを追加
 
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,57 +18,47 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class OtherFragment extends Fragment {
-
+//    private TextView userEmailTextView;
+    private TextView lastNameTextView;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_other, container, false);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference userRef = database.getReference("users");
+//        userEmailTextView = view.findViewById(R.id.userEmailTextView);
+        lastNameTextView = view.findViewById(R.id.lastNameTextView);
 
         TextView profileButton = view.findViewById(R.id.Profile_button);
         TextView walkButton = view.findViewById(R.id.walk_button);
         TextView missionButton = view.findViewById(R.id.mission_button);
         TextView questionButton = view.findViewById(R.id.question_button);
         TextView logoutButton = view.findViewById(R.id.logout_button);
-        TextView firstNameTextView = view.findViewById(R.id.firstNameTextView);
-        TextView lastNameTextView = view.findViewById(R.id.lastNameTextView);
 
-        userRef.addValueEventListener(new ValueEventListener() {
+
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//
+
+        userRef.child(userUid).child("lastName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String firstName = dataSnapshot.child("firstName").getValue(String.class);
-                    String lastName = dataSnapshot.child("lastName").getValue(String.class);
-
-                    // データのログ出力
-                    Log.d("FirebaseData", "First Name: " + firstName);
-                    Log.d("FirebaseData", "Last Name: " + lastName);
-
-                    if (firstName != null) {
-                        firstNameTextView.setText("こんにちは、" + firstName + "さん");
-                    } else {
-                        firstNameTextView.setText("First Nameがnullです");
-                    }
-
-                    if (lastName != null) {
-                        lastNameTextView.setText(lastName);
-                    } else {
-                        lastNameTextView.setText("Last Nameがnullです");
-                    }
+                    String userLastName = dataSnapshot.getValue(String.class);
+                    lastNameTextView.setText("こんにちは、" + userLastName + "さん");
                 } else {
-                    // データが存在しない場合の処理
-                    firstNameTextView.setText("データが存在しません");
-                    lastNameTextView.setText("");
+                    // 姓が存在しない場合の処理
+                    lastNameTextView.setText("名前が取得できませんでした");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // データの読み取りに失敗した場合の処理
-                // 必要に応じてエラーハンドリングを追加
+                // エラー処理
+                lastNameTextView.setText("データベースエラー: " + databaseError.getMessage());
             }
         });
+
 
 
         // 以下は、ボタンのクリック処理のコードです

@@ -54,6 +54,12 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 //    map関連
     implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+//アルバム
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+
 
 
     // Testing dependencies

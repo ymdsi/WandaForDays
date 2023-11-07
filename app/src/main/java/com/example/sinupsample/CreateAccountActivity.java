@@ -51,10 +51,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 // ユーザーごとに一意のキーを生成
                                 String userId = mAuth.getCurrentUser().getUid();
 
-                                // データベースに情報を登録
+                                // データベースにユーザー情報を登録
                                 databaseReference.child("users").child(userId).child("firstName").setValue(firstName);
                                 databaseReference.child("users").child(userId).child("lastName").setValue(lastName);
                                 databaseReference.child("users").child(userId).child("email").setValue(userEmail);
+
+                                // 新たなアルバムノードを作成
+                                String albumId = databaseReference.child("albums").push().getKey();
+                                // ユーザーのアルバム情報を登録
+                                databaseReference.child("users").child(userId).child("albums").child(albumId).setValue(true);
 
                                 Toast.makeText(CreateAccountActivity.this, "アカウントを作成しました！", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
@@ -73,3 +78,4 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 }
+

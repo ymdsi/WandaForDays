@@ -6,91 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".folderFragment">
 
+    <LinearLayout
+        android:id="@+id/photoGallery"
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:layout_marginTop="154dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- ここに写真を表示するImageViewを追加するためのLinearLayout -->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_new_memo"
+        android:id="@+id/uploadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="104dp"
+        android:contentDescription="Upload Button"
         android:backgroundTint="@color/pink"
         android:src="@drawable/add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/photoImageView"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toStartOf="@+id/photoImageView2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/photoImageView2"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toStartOf="@+id/photoImageView3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/photoImageView3"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:layout_marginEnd="4dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/photoImageView4"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toStartOf="@+id/photoImageView5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoImageView" />
-
-    <ImageView
-        android:id="@+id/photoImageView5"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toStartOf="@+id/photoImageView6"
-        app:layout_constraintTop_toBottomOf="@+id/photoImageView2" />
-
-    <ImageView
-        android:id="@+id/photoImageView6"
-        android:layout_width="123dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/folder_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photoImageView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
