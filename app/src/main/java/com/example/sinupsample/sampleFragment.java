@@ -2,17 +2,19 @@ package com.example.sinupsample;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.GridView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,21 +25,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class folderFragment extends Fragment {
-    private static final int PICK_IMAGE_REQUEST = 1;
+public class sampleFragment extends Fragment {
+    private GridView imageGridView;
     private Uri imageUri;
-    private ImageView imageView;
     private StorageReference storageRef;
     private DatabaseReference databaseReference;
-    private LinearLayout photoGallery; // 写真を表示するView
 
-    public folderFragment() {
-        // Required empty public constructor
-    }
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_folder, container, false);
+        View view = inflater.inflate(R.layout.fragment_sample, container, false);
+        imageGridView = view.findViewById(R.id.imageGridView);
 
         // Firebase Storageの初期化
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -49,10 +48,8 @@ public class folderFragment extends Fragment {
                 .child("albums")
                 .child("albumId1"); // アルバムIDを適切なものに置き換えてください
 
-        imageView = view.findViewById(R.id.imageView); // 画像を表示するImageView
-        FloatingActionButton uploadButton = view.findViewById(R.id.uploadButton); // アップロードボタン
-        photoGallery = view.findViewById(R.id.photoGallery); // 写真を表示するView
-
+        // 画像を選択するボタンの設定
+        FloatingActionButton uploadButton = view.findViewById(R.id.uploadButton);
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +57,7 @@ public class folderFragment extends Fragment {
             }
         });
 
+        // Firebase Realtime Databaseから画像を読み込む
         loadPhotosFromDatabase();
 
         return view;
@@ -73,7 +71,14 @@ public class folderFragment extends Fragment {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    // 選択した画像をFirebase Storageにアップロード
+    // 画像ファイルの拡張子を取得するメソッド
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = requireActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    // 選択した画像をFirebase Storageにアップロードするメソッド
     private void uploadFile() {
         if (imageUri != null) {
             StorageReference fileRef = storageRef.child("images/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
@@ -84,7 +89,6 @@ public class folderFragment extends Fragment {
                         databaseReference.child(photoId).setValue(fileRef.getPath());
 
                         Toast.makeText(getContext(), "アップロードが成功しました", Toast.LENGTH_SHORT).show();
-                        // ここで成功時の処理を追加できます
 
                         // アップロード後に写真を再読み込み
                         loadPhotosFromDatabase();
@@ -95,28 +99,27 @@ public class folderFragment extends Fragment {
         }
     }
 
-    // 画像のファイル拡張子を取得
-    private String getFileExtension(Uri uri) {
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(getContext().getContentResolver().getType(uri));
-    }
-
-    // データベースから写真を読み込んで表示
+    // Firebase Realtime Databaseから画像を読み込むメソッド
     private void loadPhotosFromDatabase() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                photoGallery.removeAllViews(); // 既存の写真をクリア
+                String[] imagePaths = new String[(int) dataSnapshot.getChildrenCount()];
 
+                int i = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String filePath = snapshot.getValue(String.class);
-                    if (filePath != null) {
-                        // 写真を表示するImageViewを作成
-                        ImageView photoImageView = new ImageView(getContext());
-                        photoImageView.setPadding(8, 8, 8, 8);
-                        photoImageView.setImageURI(Uri.parse(filePath));
-                        photoGallery.addView(photoImageView);
+                    String imagePath = snapshot.getValue(String.class);
+                    if (imagePath != null) {
+                        imagePaths[i] = imagePath;
+                        i++;
                     }
                 }
+
+                // カスタムアダプターを作成
+                ImageAdapter adapter = new ImageAdapter(requireContext(), imagePaths);
+
+                // GridViewにアダプターをセット
+                imageGridView.setAdapter(adapter);
             }
 
             @Override
@@ -132,7 +135,6 @@ public class folderFragment extends Fragment {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            imageView.setImageURI(imageUri);
             uploadFile();
         }
     }

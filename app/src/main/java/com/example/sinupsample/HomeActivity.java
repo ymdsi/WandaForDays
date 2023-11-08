@@ -35,10 +35,11 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_folder) {
                 // "Folder" アイテムが選択されたときの処理
-                loadFragment(new folderFragment());
+                loadFragment(new sampleFragment());
                 return true;
             } else if (itemId == R.id.navigation_Other) {
                 loadFragment(new OtherFragment());
+//
                 return true;
             }
             return false;

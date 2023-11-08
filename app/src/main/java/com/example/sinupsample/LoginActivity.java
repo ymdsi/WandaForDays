@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == CreateAccountActivity.RESULT_CODE_CREATE_ACCOUNT) {
-                        Intent intent = new Intent(LoginActivity.this, MemoListActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         setResult(RESULT_CODE_LOGIN, intent);
                         finish();
                     }
