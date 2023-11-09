@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ public class sampleFragment extends Fragment {
     private Uri imageUri;
     private StorageReference storageRef;
     private DatabaseReference databaseReference;
+    private TextView dogskindTextView;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -37,6 +39,12 @@ public class sampleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sample, container, false);
         imageGridView = view.findViewById(R.id.imageGridView);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("users");
+
+        dogskindTextView = view.findViewById(R.id.dogkind_text_view);
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Firebase Storageの初期化
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -57,6 +65,23 @@ public class sampleFragment extends Fragment {
             }
         });
 
+        userRef.child(userUid).child("dogkinds").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String dogkind = dataSnapshot.getValue(String.class);
+                    dogskindTextView.setText(dogkind);
+                } else {
+                    // メールアドレスが存在しない場合の処理
+                    dogskindTextView.setText("犬種が取得できませんでした");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // エラー処理
+            }
+        });
         // Firebase Realtime Databaseから画像を読み込む
         loadPhotosFromDatabase();
 

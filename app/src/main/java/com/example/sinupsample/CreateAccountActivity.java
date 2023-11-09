@@ -28,6 +28,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void activitySetup() {
+        EditText dogkind = findViewById(R.id.dogkind);
         EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
         EditText rePassword = findViewById(R.id.rePassword);
@@ -47,6 +48,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 String firstName = before_name.getText().toString();
                                 String lastName = after_name.getText().toString();
                                 String userEmail = email.getText().toString();
+                                String dogkinds = dogkind.getText().toString();
 
                                 // ユーザーごとに一意のキーを生成
                                 String userId = mAuth.getCurrentUser().getUid();
@@ -55,6 +57,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 databaseReference.child("users").child(userId).child("firstName").setValue(firstName);
                                 databaseReference.child("users").child(userId).child("lastName").setValue(lastName);
                                 databaseReference.child("users").child(userId).child("email").setValue(userEmail);
+                                databaseReference.child("users").child(userId).child("dogkinds").setValue(dogkinds);
 
                                 // 新たなアルバムノードを作成
                                 String albumId = databaseReference.child("albums").push().getKey();

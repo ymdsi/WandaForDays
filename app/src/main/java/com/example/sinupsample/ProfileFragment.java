@@ -24,6 +24,7 @@ public class ProfileFragment extends Fragment {
     private TextView lastNameTextView;
     private TextView userEmailTextView;
     private TextView firstNameTextView;
+    private TextView dogskindTextView;
 
 
     @Override
@@ -34,6 +35,7 @@ public class ProfileFragment extends Fragment {
         userEmailTextView = view.findViewById(R.id.userEmailTextView);
         lastNameTextView = view.findViewById(R.id.lastNameTextView);
         firstNameTextView = view.findViewById(R.id.firstNameTextView);
+        dogskindTextView = view.findViewById(R.id.dogkind_text);
         // ImageButtonを取得
         ImageButton myImageButton = view.findViewById(R.id.back_button);
 
@@ -92,6 +94,25 @@ public class ProfileFragment extends Fragment {
                 lastNameTextView.setText("データベースエラー: " + databaseError.getMessage());
             }
         });
+//犬種データベースから表示
+        userRef.child(userUid).child("dogkinds").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String dogkind = dataSnapshot.getValue(String.class);
+                    dogskindTextView.setText(dogkind);
+                } else {
+                    // メールアドレスが存在しない場合の処理
+                    dogskindTextView.setText("犬種が取得できませんでした");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // エラー処理
+            }
+        });
+
         // ImageButtonにクリックリスナーを設定
         myImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

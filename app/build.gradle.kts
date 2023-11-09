@@ -57,6 +57,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
 //アルバム
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.google.firebase:firebase-messaging:23.3.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.squareup.picasso:picasso:2.71828")
