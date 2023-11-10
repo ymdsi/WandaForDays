@@ -4,23 +4,28 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -30,112 +35,93 @@ import java.util.List;
 
 public class MapsearchFragment extends Fragment {
 
-    private PlacesClient placesClient;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private TextView searchResultTextView;
+    private static final String TAG = MapsearchFragment.class.getSimpleName();
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     public MapsearchFragment() {
-        // 必要な空の公開コンストラクタ
+        // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mapsearch, container, false);
 
-        // Places APIと位置情報を初期化
-        Places.initialize(requireContext(), "AIzaSyCNGQofTU2TC4DZidAnGAZ26CsZPE3UBTA");
-        placesClient = Places.createClient(requireContext());
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        // UI要素を見つける
-        AutoCompleteTextView searchTextView = view.findViewById(R.id.Search_Text);
-        ImageButton searchButton = view.findViewById(R.id.search_button);
-        searchResultTextView = view.findViewById(R.id.searchResultTextView);
-
-        // 検索ボタンにクリックリスナーを設定
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 現在位置を取得して近くのカフェを検索
-                getCurrentLocationAndSearchCafe();
-            }
-        });
+        // ユーザーの許可を確認し、位置情報を取得する
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
+        }
 
         return view;
     }
 
-    private void getCurrentLocationAndSearchCafe() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                // 現在位置から近くのカフェを検索
-                                searchNearbyCafe(location.getLatitude(), location.getLongitude());
-                            }
-                        }
-                    });
-        } else {
-            // 位置情報のパーミッションがない場合は要求
-            requestLocationPermission();
-        }
-    }
+    private void getCurrentLocation() {
+        FusedLocationProviderClient fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(requireContext());
 
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-    }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        LatLng currentLatLng = new LatLng(latitude, longitude);
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // パーミッションが許可された場合、処理を続行
-                getCurrentLocationAndSearchCafe();
-            } else {
-                // パーミッションが拒否された場合、適切な対応を行う
-                // 例: ユーザーに説明するダイアログを表示するなど
-            }
-        }
-    }
-
-    private void searchNearbyCafe(double latitude, double longitude) {
-        // FindCurrentPlaceリクエストを構築
-        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG))
-                .build();
-
-        // FindCurrentPlaceリクエストを実行
-        placesClient.findCurrentPlace(request)
-                .addOnSuccessListener(new OnSuccessListener<FindCurrentPlaceResponse>() {
-                    @Override
-                    public void onSuccess(FindCurrentPlaceResponse response) {
-                        // カフェの検索結果を取得
-                        List<PlaceLikelihood> likelihoods = response.getPlaceLikelihoods();
-
-                        // 検索結果を表示
-                        displaySearchResults(likelihoods);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // 検索失敗時の処理
-                        searchResultTextView.setText("検索に失敗しました");
+                        // 取得した位置情報を使ってPlaces APIを呼び出す
+                        searchNearbyPlaces(currentLatLng);
                     }
                 });
     }
 
-    private void displaySearchResults(List<PlaceLikelihood> likelihoods) {
-        // likelihoodsから必要な情報を取り出して表示
-        for (PlaceLikelihood likelihood : likelihoods) {
-            Place place = likelihood.getPlace();
-            String name = place.getName();
-            String address = place.getAddress();
+    private void searchNearbyPlaces(LatLng currentLatLng) {
+        Places.initialize(requireContext(), "AIzaSyCNGQofTU2TC4DZidAnGAZ26CsZPE3UBTA");
 
-            // ここで検索結果を表示する処理を追加
+        AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+        String keyword = "犬が入れる建物";
+        String location = String.format("%f,%f", currentLatLng.latitude, currentLatLng.longitude);
+        String radius = "500"; // メートル
 
-            // 例えば、searchResultTextViewに表示する場合
-            searchResultTextView.setText("カフェ名: " + name + "\n住所: " + address);
+        FindAutocompletePredictionsRequest request =
+                FindAutocompletePredictionsRequest.builder()
+                        .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                        .setSessionToken(token)
+                        .setQuery(keyword)
+                        .setLocationBias(RectangularBounds.newInstance(
+                                LatLngBounds.builder().include(currentLatLng).build()
+                        ))
+                        .build();
+
+        PlacesClient placesClient = Places.createClient(requireContext());
+
+        placesClient.findAutocompletePredictions(request)
+                .addOnSuccessListener(response -> {
+                    for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                        Log.i(TAG, "Place Prediction: " + prediction.getPlaceId());
+                        // 取得した情報を利用してUIに表示などを行う
+                    }
+                })
+                .addOnFailureListener(exception -> {
+                    if (exception instanceof ApiException) {
+                        ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                        Toast.makeText(requireContext(), "エラーが発生しました", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation();
+            } else {
+                Toast.makeText(requireContext(), "位置情報の許可が必要です", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
