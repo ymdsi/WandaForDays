@@ -55,7 +55,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             // 位置情報の取得とマーカーの設定
             mMap.setMyLocationEnabled(true);
 
-            // 初期の位置情報 (例: 東京タワー)
+            // 初期の位置情報 (okayama)
             double initialLatitude = 34.6551;
             double initialLongitude = 133.9195;
             LatLng initialLocation = new LatLng(initialLatitude, initialLongitude);

@@ -27,7 +27,8 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_map) {
                 // "Map" アイテムが選択されたときの処理
-                loadFragment(new MapsFragment());
+//                loadFragment(new MapsFragment());
+                loadFragment(new MapsearchFragment());
                 return true;
             } else if (itemId == R.id.navigation_board) {
                 // "Board" アイテムが選択されたときの処理

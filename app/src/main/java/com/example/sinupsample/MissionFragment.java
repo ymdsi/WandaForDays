@@ -6,11 +6,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,6 +23,9 @@ public class MissionFragment extends Fragment {
     private int stepCount = 0;
     private boolean isWalking = false;
     private TextView stepCountTextView;
+    private TextView pointTextView;
+    private Button startCountButton; // ボタンをフィールドとして宣言
+    private boolean isCounting = false; // 歩数計測中かどうかのフラグ
 
     public MissionFragment() {
         // Required empty public constructor
@@ -29,9 +35,11 @@ public class MissionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mission, container, false);
 
+        startCountButton = view.findViewById(R.id.start_count_button); // ボタンを取得
         // ImageButtonを取得
         ImageButton myImageButton = view.findViewById(R.id.back_button);
         stepCountTextView = view.findViewById(R.id.step_count_text);
+        pointTextView = view.findViewById(R.id.point_text);
 
         // センサーマネージャーを初期化
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -50,14 +58,21 @@ public class MissionFragment extends Fragment {
             }
         });
 
+        startCountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCount(); // ボタンがクリックされたときに歩数カウントを開始
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // 加速度センサーリスナーを登録
-        sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        // ここでセンサーリスナーを登録する必要はありません
+        // ボタンがクリックされたときにセンサーリスナーを登録します
     }
 
     @Override
@@ -72,12 +87,11 @@ public class MissionFragment extends Fragment {
         public void onSensorChanged(SensorEvent event) {
             float x = event.values[0];
             float y = event.values[1];
-            float z = event.values[2];
 
-            double magnitude = Math.sqrt(x * x + y * y + z * z);
+            double magnitude = Math.sqrt(x * x + y * y);
 
-            // ここで歩数の単純なカウントを行う例
-            if (magnitude > 10 && !isWalking) {
+            // 歩数の単純なカウントを行う例
+            if (magnitude > 13 && isCounting && !isWalking) {
                 stepCount++;
                 isWalking = true;
             } else if (magnitude < 10) {
@@ -86,6 +100,11 @@ public class MissionFragment extends Fragment {
 
             // 歩数をUIに表示
             stepCountTextView.setText("歩数: " + stepCount);
+            if (stepCount >= 20 && stepCount < 40) {
+                pointTextView.setText("1km突破");
+            }else if (stepCount >= 40) {
+                pointTextView.setText("2km突破");
+            }
         }
 
         @Override
@@ -93,4 +112,13 @@ public class MissionFragment extends Fragment {
             // 加速度センサーの精度変更の処理
         }
     };
+
+    public void startCount() {
+        if (!isCounting) {
+            isCounting = true;
+            // 歩数カウントを開始するためのコードをここに追加
+            // クリックされたときにセンサーリスナーを登録
+            sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
 }
