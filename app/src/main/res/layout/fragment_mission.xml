@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="デイリーミッション"
-        android:textSize="30dp"
         android:textColor="@color/brown2"
+        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -46,42 +46,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Text_Mission" />
 
+
+
+
+
+
+
     <TextView
-        android:id="@+id/step_count_text"
+        android:id="@+id/now_points_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="8dp"
-        android:text="散歩開始ボタンが押されていません"
-        android:textSize="24dp"
+        android:layout_marginTop="52dp"
+        android:text="現在"
+        android:textSize="26dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.203"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Text_Mission" />
 
-    <Button
-        android:id="@+id/start_count_button"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/bar"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
-        android:onClick="startCount"
-        android:text="歩数カウント開始"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/image_bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_count_text" />
+        app:layout_constraintTop_toTopOf="@+id/now_points" />
 
     <TextView
-        android:id="@+id/point_text"
+        android:id="@+id/now_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="77dp"
-        android:text=""
-        android:textColor="@color/brown2"
-        android:textSize="30dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="90dp"
+        android:text="pt"
+        android:textSize="26dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_count_text" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/now_points_text"
+        app:layout_constraintTop_toBottomOf="@+id/Text_Mission" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

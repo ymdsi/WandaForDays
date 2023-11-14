@@ -1,14 +1,29 @@
 package com.example.sinupsample;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,9 +40,23 @@ public class HomeFragment extends Fragment {
     private TextView temperatureTextView;
     private TextView soilTemperatureTextView;
     private ImageView imageView; // ImageViewを宣言
+//    ミッション
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private int stepCount = 0;
+    private boolean isWalking = false;
+    private TextView stepCountTextView;
+    private Button startCountButton; // ボタンをフィールドとして宣言
+    private boolean isCounting = false; // 歩数計測中かどうかのフラグ
+
+    private Button Get_Point_Button1;
+    private TextView mission1_TextView;
+    private Integer mission1_judgment=0;
+    private DatabaseReference userRef;
 
     public HomeFragment() {
         // Required empty public constructor
+        userRef = FirebaseDatabase.getInstance().getReference("users");
     }
 
 
@@ -39,11 +68,36 @@ public class HomeFragment extends Fragment {
         temperatureTextView = view.findViewById(R.id.temperatureTextView);
         soilTemperatureTextView = view.findViewById(R.id.soilTemperatureTextView);
         imageView = view.findViewById(R.id.imageView); // ImageView を初期化
+        startCountButton = view.findViewById(R.id.start_count_button);
+        stepCountTextView = view.findViewById(R.id.step_count_text);
+        Get_Point_Button1 = view.findViewById(R.id.get_point1);
+        mission1_TextView = view.findViewById(R.id.mission_1);
+
+
+
+        //ボタン初期化
+
+        Get_Point_Button1.setEnabled(false);
+        // センサーマネージャーを初期化
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
+        // 加速度センサーを取得
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         // ネットワーク通信を非同期で実行
         new GetDataTask().execute();
 
+
+        startCountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCount(); // ボタンがクリックされたときに歩数カウントを開始
+            }
+        });
+
         return view;
+
+
     }
 
     private class GetDataTask extends AsyncTask<Void, Void, JSONObject> {
@@ -166,5 +220,93 @@ public class HomeFragment extends Fragment {
         }
         return null;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // ここでセンサーリスナーを登録する必要はありません
+        // ボタンがクリックされたときにセンサーリスナーを登録します
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        // 加速度センサーリスナーを解除
+        sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+
+            double magnitude = Math.sqrt(x * x + y * y);
+
+            // 歩数の単純なカウントを行う例
+            if (magnitude > 13 && isCounting && !isWalking) {
+                stepCount++;
+                isWalking = true;
+            } else if (magnitude < 10) {
+                isWalking = false;
+            }
+
+            // 歩数をUIに表示
+            stepCountTextView.setText("歩数: " + stepCount);
+            if (stepCount >= 0 && stepCount < 40) {
+                stepCountTextView.setText("1km突破");
+                if (mission1_judgment < 1) {
+                    Get_Point_Button1.setEnabled(true);
+                }
+            }else if (stepCount >= 40) {
+                stepCountTextView.setText("2km突破");
+            }
+            Get_Point_Button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mission1_TextView.setText("　　30ポイント 獲得　");
+                    mission1_judgment = mission1_judgment + 1;
+
+                    DatabaseReference userPointsRef = userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("points");
+                    userPointsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // データがHashMap型であるか確認
+                                if (dataSnapshot.getValue() instanceof Long) {
+                                    // データをLong型に変換
+                                    Long userPoints = dataSnapshot.getValue(Long.class);
+
+                                    // +30して更新
+                                    userPointsRef.setValue(userPoints + 30);
+                                    Toast.makeText(requireContext(), "30ポイント獲得しました！", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // エラー処理
+                        }
+                    });
+                    Get_Point_Button1.setText("獲得済");
+                    Get_Point_Button1.setEnabled(false);
+                }
+            });
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // 加速度センサーの精度変更の処理
+        }
+    };
+
+    public void startCount() {
+        if (!isCounting) {
+            isCounting = true;
+            // 歩数カウントを開始するためのコードをここに追加
+            // クリックされたときにセンサーリスナーを登録
+            sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
 }
+

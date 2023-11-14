@@ -6,12 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <Button
+        android:id="@+id/start_count_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:onClick="startCount"
+        android:text="歩数カウント開始"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/step_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
+        android:text="散歩開始ボタンが押されていません"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/start_count_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/soilTemperatureTextView"
         app:layout_constraintTop_toTopOf="@+id/map_okayama" />
 
@@ -46,7 +71,7 @@
         android:id="@+id/soilTemperatureTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:text="路面温度: "
@@ -61,11 +86,11 @@
     <ImageView
         android:id="@+id/map_okayama"
         android:layout_width="560dp"
-        android:layout_height="262dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/map_okayama"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Text" />
 
@@ -73,24 +98,51 @@
         android:id="@+id/mission_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="デイリーミッション"
         android:textColor="@color/pink"
         android:textSize="30dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/mission_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="380dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/mission"
+    <TextView
+        android:id="@+id/mission_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/mission_editt"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingRight="105dp"
+        android:paddingBottom="10dp"
+        android:text=" 2km突破 30ポイント"
+        android:textColor="#8C6776"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/step_count_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mission_text" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/get_point1"
+        android:layout_width="94dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="203dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="@drawable/color_select"
+        android:text="獲得"
+        android:textColor="#605F5F"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/mission_1"
+        app:layout_constraintEnd_toEndOf="@+id/mission_1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/mission_1"
+        app:layout_constraintTop_toTopOf="@+id/mission_1"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

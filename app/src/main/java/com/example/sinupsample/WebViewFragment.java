@@ -31,8 +31,7 @@ public class WebViewFragment extends Fragment {
         webView.setWebViewClient(new WebViewClient()); // WebView内でリンクがクリックされたときに新しいウィンドウを開かずにWebView内で表示
 
         // WebViewに表示するURLを指定
-        String url = "https://fff.cmiscm.com/#!/section/triangulation";
-//        String url = "http://127.0.0.1:8000/";
+        String url = "http://54.174.192.202/index.php";
 //        // 表示したいウェブサイトのURLを設定
         webView.loadUrl(url);
     }

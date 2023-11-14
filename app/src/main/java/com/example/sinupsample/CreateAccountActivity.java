@@ -58,6 +58,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 databaseReference.child("users").child(userId).child("lastName").setValue(lastName);
                                 databaseReference.child("users").child(userId).child("email").setValue(userEmail);
                                 databaseReference.child("users").child(userId).child("dogkinds").setValue(dogkinds);
+                                databaseReference.child("users").child(userId).child("points").setValue(0);
 
                                 // 新たなアルバムノードを作成
                                 String albumId = databaseReference.child("albums").push().getKey();
