@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -27,13 +29,37 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final float DEFAULT_ZOOM = 14f;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+
+        // ImageButtonを取得
+        ImageButton myImageButton = view.findViewById(R.id.back_button);
+
+        // ImageButtonにクリックリスナーを設定
+        myImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new SpotFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        return view;
+    }
+
+
+    public static MapsFragment newInstance(double ido, double keido) {
+        MapsFragment fragment = new MapsFragment();
+        Bundle args = new Bundle();
+        args.putDouble("緯度", ido);
+        args.putDouble("経度", keido);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -44,6 +70,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        // プラスマイナスボタンのクリックリスナーを設定
+        ImageButton zoomInButton = view.findViewById(R.id.zoom_in_button);
+        zoomInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMap != null) {
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                }
+            }
+        });
+
+        ImageButton zoomOutButton = view.findViewById(R.id.zoom_out_button);
+        zoomOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMap != null) {
+                    mMap.animateCamera(CameraUpdateFactory.zoomOut());
+                }
+            }
+        });
     }
 
     @Override
@@ -55,14 +102,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             // 位置情報の取得とマーカーの設定
             mMap.setMyLocationEnabled(true);
 
-            // 初期の位置情報 (okayama)
-            double initialLatitude = 34.6551;
-            double initialLongitude = 133.9195;
-            LatLng initialLocation = new LatLng(initialLatitude, initialLongitude);
+            Bundle args = getArguments();
+            if (args != null) {
+                double latitude = args.getDouble("緯度", 0.0);
+                double longitude = args.getDouble("経度", 0.0);
 
-            // 初期位置にマーカーを追加
-//            mMap.addMarker(new MarkerOptions().position(initialLocation).title("初期位置"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 14f));
+                // ピンを指すマーカーを追加
+                LatLng location = new LatLng(latitude, longitude);
+                mMap.addMarker(new MarkerOptions().position(location).title("店舗名"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ZOOM));
+            } else {
+                // 初期の位置情報 (Okayama)を設定
+                double initialLatitude = 34.6551;
+                double initialLongitude = 133.9195;
+                LatLng initialLocation = new LatLng(initialLatitude, initialLongitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, DEFAULT_ZOOM));
+            }
         } else {
             // パーミッションが許可されていない場合、パーミッションをリクエスト
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);

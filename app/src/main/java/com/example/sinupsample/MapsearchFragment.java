@@ -45,8 +45,7 @@ public class MapsearchFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView[] searchResultTextViewArray;
     //    MapsFragmentに渡す緯度経度
-    private double ido;
-    private double keido;
+
 
     public MapsearchFragment() {
         // 必要な空の公開コンストラクタ

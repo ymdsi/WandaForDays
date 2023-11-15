@@ -28,7 +28,8 @@ public class HomeActivity extends AppCompatActivity {
             } else if (itemId == R.id.navigation_map) {
                 // "Map" アイテムが選択されたときの処理
 //                loadFragment(new MapsFragment());
-                loadFragment(new MapsearchFragment());
+//                loadFragment(new MapsearchFragment());
+                loadFragment(new SpotFragment());
                 return true;
             } else if (itemId == R.id.navigation_board) {
                 // "Board" アイテムが選択されたときの処理

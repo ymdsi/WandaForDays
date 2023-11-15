@@ -60,6 +60,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 databaseReference.child("users").child(userId).child("dogkinds").setValue(dogkinds);
                                 databaseReference.child("users").child(userId).child("points").setValue(0);
 
+
                                 // 新たなアルバムノードを作成
                                 String albumId = databaseReference.child("albums").push().getKey();
                                 // ユーザーのアルバム情報を登録

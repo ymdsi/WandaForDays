@@ -50,8 +50,11 @@ public class HomeFragment extends Fragment {
     private boolean isCounting = false; // 歩数計測中かどうかのフラグ
 
     private Button Get_Point_Button1;
+    private Button Get_Point_Button2;
     private TextView mission1_TextView;
+    private TextView mission2_TextView;
     private Integer mission1_judgment=0;
+    private Integer mission2_judgment=0;
     private DatabaseReference userRef;
 
     public HomeFragment() {
@@ -71,12 +74,14 @@ public class HomeFragment extends Fragment {
         startCountButton = view.findViewById(R.id.start_count_button);
         stepCountTextView = view.findViewById(R.id.step_count_text);
         Get_Point_Button1 = view.findViewById(R.id.get_point1);
+        Get_Point_Button2 = view.findViewById(R.id.get_point2);
         mission1_TextView = view.findViewById(R.id.mission_1);
+        mission2_TextView = view.findViewById(R.id.mission_2);
 
 
 
         //ボタン初期化
-
+        Get_Point_Button2.setEnabled(false);
         Get_Point_Button1.setEnabled(false);
         // センサーマネージャーを初期化
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -251,14 +256,12 @@ public class HomeFragment extends Fragment {
             }
 
             // 歩数をUIに表示
-            stepCountTextView.setText("歩数: " + stepCount);
-            if (stepCount >= 0 && stepCount < 40) {
-                stepCountTextView.setText("1km突破");
-                if (mission1_judgment < 1) {
+            stepCountTextView.setText("現在: " + stepCount + "歩");
+            if (stepCount >= 20 && mission1_judgment < 1) {
                     Get_Point_Button1.setEnabled(true);
-                }
-            }else if (stepCount >= 40) {
-                stepCountTextView.setText("2km突破");
+
+            }if (stepCount >= 40 && mission2_judgment < 1) {
+                Get_Point_Button2.setEnabled(true);
             }
             Get_Point_Button1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -290,6 +293,39 @@ public class HomeFragment extends Fragment {
                     });
                     Get_Point_Button1.setText("獲得済");
                     Get_Point_Button1.setEnabled(false);
+                }
+            });
+
+            Get_Point_Button2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mission2_TextView.setText("　　50ポイント 獲得　");
+                    mission2_judgment = mission2_judgment + 1;
+
+                    DatabaseReference userPointsRef = userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("points");
+                    userPointsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // データがHashMap型であるか確認
+                                if (dataSnapshot.getValue() instanceof Long) {
+                                    // データをLong型に変換
+                                    Long userPoints = dataSnapshot.getValue(Long.class);
+
+                                    // +50して更新
+                                    userPointsRef.setValue(userPoints + 50);
+                                    Toast.makeText(requireContext(), "50ポイント獲得しました！", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // エラー処理
+                        }
+                    });
+                    Get_Point_Button2.setText("獲得済");
+                    Get_Point_Button2.setEnabled(false);
                 }
             });
         }
