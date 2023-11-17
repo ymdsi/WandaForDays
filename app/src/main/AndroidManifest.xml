@@ -57,6 +57,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNGQofTU2TC4DZidAnGAZ26CsZPE3UBTA" />
 
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">
