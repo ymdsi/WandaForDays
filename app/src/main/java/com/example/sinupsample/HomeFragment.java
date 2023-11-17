@@ -139,10 +139,14 @@ public class HomeFragment extends Fragment {
                     // 最も近い時間に対応する気温と地温を取得
                     double temperature = temperatureArray.getDouble(closestIndex);
                     double soilTemperature = soilTemperatureArray.getDouble(closestIndex);
-//                    double soilTemperature = 19;
+//                    double soilTemperature = 50;
                     int imageResource;
 
-                    if (soilTemperature <= 25.0) {
+                    if (soilTemperature <= 0.0) {
+                        imageResource = R.drawable.image4;
+                    } else if (soilTemperature <= 10.0) {
+                        imageResource = R.drawable.image3;
+                    } else if (soilTemperature > 10.0 && soilTemperature <= 25.0) {
                         imageResource = R.drawable.image1;
                     } else if (soilTemperature > 25.0 && soilTemperature <= 35.0) {
                         imageResource = R.drawable.image2;
