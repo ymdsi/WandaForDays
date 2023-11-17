@@ -53,11 +53,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public static MapsFragment newInstance(double ido, double keido) {
+    public static MapsFragment newInstance(double ido, double keido, String spotName) {
         MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
         args.putDouble("緯度", ido);
         args.putDouble("経度", keido);
+        args.putString("スポット名", spotName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,10 +107,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             if (args != null) {
                 double latitude = args.getDouble("緯度", 0.0);
                 double longitude = args.getDouble("経度", 0.0);
+                String SpotName = args.getString("スポット名");
 
                 // ピンを指すマーカーを追加
                 LatLng location = new LatLng(latitude, longitude);
-                mMap.addMarker(new MarkerOptions().position(location).title("店舗名"));
+                mMap.addMarker(new MarkerOptions().position(location).title(SpotName));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ZOOM));
             } else {
                 // 初期の位置情報 (Okayama)を設定

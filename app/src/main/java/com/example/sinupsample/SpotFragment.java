@@ -1,6 +1,7 @@
 package com.example.sinupsample;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -14,9 +15,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +38,7 @@ public class SpotFragment extends Fragment {
     private ArrayAdapter<String> adapter;
     private DatabaseReference databaseReference;
     private SearchView searchView;
-    private List<Spot> spotList;
+    private List<Spot> spotListFull;
 
     public SpotFragment() {
         // 必要な空の公開コンストラクタ
@@ -54,6 +57,7 @@ public class SpotFragment extends Fragment {
         // ListViewにAdapterをセット
         listView.setAdapter(adapter);
 
+
         SpotImage_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,20 +75,80 @@ public class SpotFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // 対応するSpotオブジェクトを取得
-                Spot selectedSpot = spotList.get(position);
+                Spot selectedSpot = spotListFull.get(position);
+                String spotName = selectedSpot.getSpotName();
 
                 // Spotの住所を取得して緯度経度に変換
                 if (selectedSpot != null) {
                     String address = selectedSpot.getAddress();
-                    convertAddressToLatLng(address);
+                    convertAddressToLatLng(address,spotName);
                 }
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // 対応するSpotオブジェクトを取得
+                Spot selectedSpot = spotListFull.get(position);
+
+                // Spotの削除処理を行う
+                if (selectedSpot != null) {
+                    deleteSpot(selectedSpot);
+                }
+
+                return true; // イベントが処理されたことを示すためにtrueを返す
             }
         });
 
         return view;
     }
+    private void deleteSpot(final Spot spot) {
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (spot != null) {
+            // 確認のダイアログを表示
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("削除の確認")
+                    .setMessage("本当に削除しますか？")
+                    .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // はいが選択された場合、スポットを削除
+                            if (spot.getCreatorKey().equals(userUid)) {
+                                performSpotDeletion(spot);
+                            } else {
+                                Toast.makeText(requireContext(), "作成者のみ削除権限があります", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // いいえが選択された場合、ダイアログを閉じる
+                            Toast.makeText(requireContext(), "削除しませんでした", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
 
-    private void convertAddressToLatLng(String address) {
+    private void performSpotDeletion(Spot spot) {
+        // Firebaseから削除
+        DatabaseReference spotRef = FirebaseDatabase.getInstance().getReference().child("spot").child(spot.getSpotId());
+        spotRef.removeValue();
+
+        // ローカルのリストからも削除
+        spotListFull.remove(spot);
+        // ListViewを更新
+        adapter.clear();
+        displaySpotList(spotListFull);
+        adapter.notifyDataSetChanged();
+
+        Toast.makeText(requireContext(), "スポットが削除されました", Toast.LENGTH_SHORT).show();
+    }
+
+    private void convertAddressToLatLng(String address, String spotName) {
         Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
 
         try {
@@ -97,11 +161,11 @@ public class SpotFragment extends Fragment {
 
                 // MapsFragmentに遷移
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, MapsFragment.newInstance(ido, keido));
+                transaction.replace(R.id.fragment_container, MapsFragment.newInstance(ido, keido, spotName));
                 transaction.addToBackStack(null);
                 transaction.commit();
             } else {
-                Toast.makeText(requireContext(), "緯度経度を取得できませんでした", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "住所が正しく入力されていません", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,20 +179,28 @@ public class SpotFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                spotList = new ArrayList<>();  // spotList を初期化
+                spotListFull = new ArrayList<>();  // spotListFull を初期化
 
                 for (DataSnapshot spotSnapshot : dataSnapshot.getChildren()) {
                     String spotName = spotSnapshot.child("スポット名").getValue(String.class);
                     String address = spotSnapshot.child("住所").getValue(String.class);
                     String details = spotSnapshot.child("詳細").getValue(String.class);
+                    String creatorKey = spotSnapshot.child("作成者キー").getValue(String.class);
+                    String photoUrl = spotSnapshot.child("写真URL").getValue(String.class); // 写真のURLの取得
+                    String spotId = spotSnapshot.child("スポットID").getValue(String.class);
 
-                    if (spotName != null && address != null && details != null) {
-                        Spot spot = new Spot(spotName, address, details);
-                        spotList.add(spot);
+//                    Toast.makeText(requireContext(), photoUrl, Toast.LENGTH_SHORT).show();
+                    if (spotName != null && address != null && details != null && creatorKey != null) {
+                        Spot spot = new Spot(spotName, address, details, creatorKey, photoUrl, spotId);
+                        spotListFull.add(spot);
                     }
                 }
 
-                displaySpotList(spotList);
+                // SpotAdapterを初期化
+                SpotAdapter spotAdapter = new SpotAdapter(requireContext(), spotListFull);
+                listView.setAdapter(spotAdapter);
+
+                displaySpotList(spotListFull);
             }
 
             @Override
@@ -160,11 +232,9 @@ public class SpotFragment extends Fragment {
                 });
     }
 
-    private void displaySpotList(List<Spot> spotList) {
-        for (Spot spot : spotList) {
-            adapter.add("スポット名: " + spot.getSpotName() +
-                    "\n住所: " + spot.getAddress() +
-                    "\n詳細: " + spot.getDetails());
-        }
+    private void displaySpotList(List<Spot> spotListFull) {
+        SpotAdapter spotAdapter = new SpotAdapter(requireContext(), spotListFull);
+        listView.setAdapter(spotAdapter);
     }
+
 }

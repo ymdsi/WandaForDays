@@ -7,16 +7,14 @@
     tools:context=".SpotPostFragment">
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/CameraButton"
-        android:layout_width="134dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/camera"
-        app:layout_constraintBottom_toTopOf="@+id/imageView15"
-        app:layout_constraintEnd_toStartOf="@+id/Photo_pic"
+        android:layout_width="700px"
+        android:layout_height="500px"
+        android:layout_marginStart="54dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/camera"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView15"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -118,9 +116,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="1dp"
-        android:text="例＿岡山県岡山市北区柳町２丁目５−２１"
+        android:layout_marginStart="54dp"
+        android:layout_marginBottom="15dp"
+        android:text="例＿岡山県岡山市北区柳町"
         app:layout_constraintBottom_toTopOf="@+id/CameraButton"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -128,8 +126,8 @@
         android:id="@+id/Photo_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
         android:text="写真選択"
         app:layout_constraintBottom_toTopOf="@+id/imageView15"
         app:layout_constraintStart_toEndOf="@+id/CameraButton" />
