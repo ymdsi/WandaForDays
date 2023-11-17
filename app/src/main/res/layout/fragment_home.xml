@@ -10,13 +10,14 @@
         android:id="@+id/start_count_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="88dp"
         android:backgroundTint="@color/pink"
         android:onClick="startCount"
         android:text="散歩開始"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -26,9 +27,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
         android:text="散歩開始ボタンが押されていません"
+        android:textColor="@color/brown"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:textColor="@color/brown"
         app:layout_constraintBottom_toTopOf="@+id/start_count_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.422"
