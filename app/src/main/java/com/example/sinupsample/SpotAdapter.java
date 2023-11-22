@@ -71,7 +71,6 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
         holder.addressTextView.setText("住所: " + spot.getAddress());
         holder.detailsTextView.setText("詳細: " + spot.getDetails());
 
-
         String photoUrl = spot.getPhotoUrl();
         if (photoUrl != null && !photoUrl.isEmpty()) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(photoUrl);
@@ -79,6 +78,7 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
                 // ダウンロードURLを使ってGlideで画像を読み込む
                 Glide.with(context)
                         .load(uri)
+                        .skipMemoryCache(true) // メモリキャッシュをスキップ
                         .into(holder.photoImageView);
             }).addOnFailureListener(exception -> {
                 // ダウンロードURLの取得に失敗した場合の処理
@@ -87,8 +87,8 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
         }
 
         return view;
-
     }
+
 
     static class ViewHolder {
         TextView spotNameTextView;

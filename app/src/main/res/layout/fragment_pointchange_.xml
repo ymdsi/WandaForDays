@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Pointchange_Fragment">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="37dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:padding="0dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/before_24"
+        app:layout_constraintEnd_toStartOf="@+id/Text_pointchange"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Text_pointchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="ポイント交換"
+        android:textColor="@color/brown2"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/point_wan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="90dp"
+        android:src="@drawable/point_wan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/point_5000" />
+
+    <ImageView
+        android:id="@+id/point_2500"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/point_2500"
+        app:layout_constraintBottom_toTopOf="@+id/point_5000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Text_pointchange" />
+
+    <ImageView
+        android:id="@+id/point_5000"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/point_5000"
+        app:layout_constraintBottom_toTopOf="@+id/point_wan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/point_2500" />
+
+    <Button
+        android:id="@+id/pointchange2500"
+        android:layout_width="110dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@drawable/color_select"
+        android:text="交換する"
+        android:textColor="#775959"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/point_2500"
+        app:layout_constraintEnd_toEndOf="@+id/point_2500"
+        app:layout_constraintStart_toStartOf="@+id/point_2500"
+        app:layout_constraintTop_toTopOf="@+id/point_2500" />
+
+    <Button
+        android:id="@+id/pointchange5000"
+        android:layout_width="110dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@drawable/color_select"
+        android:text="交換する"
+        android:textColor="#775959"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/point_5000"
+        app:layout_constraintEnd_toEndOf="@+id/point_5000"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/point_5000"
+        app:layout_constraintTop_toTopOf="@+id/point_5000"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/pointchange10000"
+        android:layout_width="110dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@drawable/color_select"
+        android:text="交換する"
+        android:textColor="#775959"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/point_wan"
+        app:layout_constraintEnd_toEndOf="@+id/point_wan"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/point_wan"
+        app:layout_constraintTop_toTopOf="@+id/point_wan"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

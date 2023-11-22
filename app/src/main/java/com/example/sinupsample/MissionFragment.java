@@ -42,6 +42,7 @@ public class MissionFragment extends Fragment {
         // ImageButtonを取得
         ImageButton myImageButton = view.findViewById(R.id.back_button);
         NowPointTextView = view.findViewById(R.id.now_points);
+        Button changebutton = view.findViewById(R.id.Change_Button);
 
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -75,6 +76,15 @@ public class MissionFragment extends Fragment {
             }
         });
 
+        changebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new Pointchange_Fragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         return view;
     }

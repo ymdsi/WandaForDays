@@ -35,6 +35,7 @@ public class OtherFragment extends Fragment {
         TextView missionButton = view.findViewById(R.id.mission_button);
         TextView questionButton = view.findViewById(R.id.question_button);
         TextView logoutButton = view.findViewById(R.id.logout_button);
+        TextView AichatButton = view.findViewById(R.id.AIchat_Button);
 
 
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -107,6 +108,16 @@ public class OtherFragment extends Fragment {
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, new LogoutFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        AichatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new ChatFragment());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

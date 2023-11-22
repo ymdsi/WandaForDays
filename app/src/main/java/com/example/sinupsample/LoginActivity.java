@@ -2,6 +2,7 @@ package com.example.sinupsample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +27,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         activitySetup();
+        final MotionLayout motionLayout = findViewById(R.id.motion); // XMLのIDに合わせる
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                motionLayout.transitionToEnd();
+            }
+        }, 900); //秒数
     }
 
     private void activitySetup() {
@@ -34,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-//ログイン状態記録
+        //ログイン状態記録
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);

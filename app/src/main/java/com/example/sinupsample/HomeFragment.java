@@ -7,7 +7,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +60,7 @@ public class HomeFragment extends Fragment {
     private Integer mission1_judgment=0;
     private Integer mission2_judgment=0;
     private DatabaseReference userRef;
+    private MotionLayout motion;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,6 +82,7 @@ public class HomeFragment extends Fragment {
         Get_Point_Button2 = view.findViewById(R.id.get_point2);
         mission1_TextView = view.findViewById(R.id.mission_1);
         mission2_TextView = view.findViewById(R.id.mission_2);
+        motion = view.findViewById(R.id.motion2);
 
 
 
@@ -91,6 +97,12 @@ public class HomeFragment extends Fragment {
 
         // ネットワーク通信を非同期で実行
         new GetDataTask().execute();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                motion.transitionToEnd();
+            }
+        }, 900); //秒数
 
 
         startCountButton.setOnClickListener(new View.OnClickListener() {

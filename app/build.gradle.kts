@@ -61,8 +61,10 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.squareup.picasso:picasso:2.71828")
-//    Google Places API
-    implementation ("com.google.android.libraries.places:places:2.6.0")
+
+//    chatgpt api
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+
 
 
 
