@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                     Log.e("LoginActivity", "ログインエラー: " + errorMessage);
-                                    Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

@@ -3,6 +3,7 @@ package com.example.sinupsample;
 import static java.security.AccessController.getContext;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,32 +51,24 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        ViewHolder holder;
+        View view = inflater.inflate(R.layout.custom_list_item, parent, false);
 
-        if (view == null) {
-            view = inflater.inflate(R.layout.custom_list_item, parent, false);
-            holder = new ViewHolder();
-            holder.spotNameTextView = view.findViewById(R.id.spotNameTextView);
-            holder.addressTextView = view.findViewById(R.id.addressTextView);
-            holder.detailsTextView = view.findViewById(R.id.detailsTextView);
-            holder.photoImageView = view.findViewById(R.id.photoImageView);
-            holder.PRTextView = view.findViewById(R.id.PR_dog);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
+        TextView spotNameTextView = view.findViewById(R.id.spotNameTextView);
+        TextView addressTextView = view.findViewById(R.id.addressTextView);
+        TextView detailsTextView = view.findViewById(R.id.detailsTextView);
+        ImageView photoImageView = view.findViewById(R.id.photoImageView);
+        ImageView PRImageView = view.findViewById(R.id.PR_dog);
 
         Spot spot = spotList.get(position);
 
-        holder.spotNameTextView.setText("スポット名: " + spot.getSpotName());
-        holder.addressTextView.setText("住所: " + spot.getAddress());
-        holder.detailsTextView.setText("詳細: " + spot.getDetails());
+        spotNameTextView.setText("スポット名: " + spot.getSpotName());
+        addressTextView.setText("住所: " + spot.getAddress());
+        detailsTextView.setText("詳細: " + spot.getDetails());
 
         if (spot.getSponsa()) {
-            holder.PRTextView.setVisibility(View.VISIBLE);
+            PRImageView.setVisibility(View.VISIBLE);
         } else {
-            holder.PRTextView.setVisibility(View.GONE);
+            PRImageView.setVisibility(View.GONE);
         }
 
         String photoUrl = spot.getPhotoUrl();
@@ -83,11 +76,12 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
         if (photoUrl != null && !photoUrl.isEmpty()) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(photoUrl);
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                // ダウンロードURLを使ってGlideで画像を読み込む
+                // ダウンロードURLを使ってGlideで画像を非同期に読み込む
                 Glide.with(context)
                         .load(uri)
-                        .into(holder.photoImageView);
+                        .into(photoImageView);
             }).addOnFailureListener(exception -> {
+                Log.e("SpotAdapter", "画像の読み込みエラー", exception);
                 // ダウンロードURLの取得に失敗した場合の処理
                 exception.printStackTrace();
             });
@@ -102,7 +96,7 @@ public class SpotAdapter extends BaseAdapter implements Filterable {
         TextView addressTextView;
         TextView detailsTextView;
         ImageView photoImageView;
-        ImageView PRTextView;
+        ImageView PRImageView;
     }
 
     @Override

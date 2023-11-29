@@ -1,6 +1,7 @@
 package com.example.sinupsample;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +27,7 @@ public class LogoutFragment extends Fragment {
         ImageButton myImageButton = view.findViewById(R.id.back_button);
         // ImageButtonを取得
         MaterialButton yesButton = view.findViewById(R.id.Yes_Button);
+        MaterialButton NoButton = view.findViewById(R.id.No_Button);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +38,16 @@ public class LogoutFragment extends Fragment {
 
         // ImageButtonにクリックリスナーを設定
         myImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, new OtherFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        NoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

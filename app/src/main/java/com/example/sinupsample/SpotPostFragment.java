@@ -80,7 +80,6 @@ public class SpotPostFragment extends Fragment {
                                 // アップロードが成功したら、Firebase Realtime Databaseに写真のメタデータを保存
                                 databaseReference.child("spot").child(spotId).child("写真URL").setValue(fileRef.getPath());
 
-                                Toast.makeText(getContext(), "アップロードが成功しました", Toast.LENGTH_SHORT).show();
 
 
                             })
