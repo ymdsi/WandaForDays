@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,8 @@ public class sampleFragment extends Fragment {
                 .child("albumId1"); // アルバムIDを適切なものに置き換えてください
 
         // 画像を選択するボタンの設定
-        FloatingActionButton uploadButton = view.findViewById(R.id.uploadButton);
+        ImageButton uploadButton = view.findViewById(R.id.upload_Button);
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

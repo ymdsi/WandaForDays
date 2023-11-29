@@ -71,6 +71,7 @@ public class SpotPostFragment extends Fragment {
                 databaseReference.child("spot").child(spotId).child("住所").setValue(address);
                 databaseReference.child("spot").child(spotId).child("作成者キー").setValue(userUid);
                 databaseReference.child("spot").child(spotId).child("スポットID").setValue(spotId);
+                databaseReference.child("spot").child(spotId).child("スポンサー").setValue("false");
 
                 if (imageUri != null) {
                     StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));

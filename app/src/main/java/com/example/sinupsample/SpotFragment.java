@@ -188,11 +188,18 @@ public class SpotFragment extends Fragment {
                     String creatorKey = spotSnapshot.child("作成者キー").getValue(String.class);
                     String photoUrl = spotSnapshot.child("写真URL").getValue(String.class); // 写真のURLの取得
                     String spotId = spotSnapshot.child("スポットID").getValue(String.class);
+                    String sponsa = spotSnapshot.child("スポンサー").getValue(String.class);
 
 //                    Toast.makeText(requireContext(), photoUrl, Toast.LENGTH_SHORT).show();
                     if (spotName != null && address != null && details != null && creatorKey != null) {
-                        Spot spot = new Spot(spotName, address, details, creatorKey, photoUrl, spotId);
-                        spotListFull.add(spot);
+                        Spot spot = new Spot(spotName, address, details, creatorKey, photoUrl, spotId, sponsa);
+                        if (spot.getSponsa()) {
+                            // getSponsaがtrueなら先頭に追加
+                            spotListFull.add(0, spot);
+                        } else {
+                            // それ以外の場合は通常に追加
+                            spotListFull.add(spot);
+                        }
                     }
                 }
 

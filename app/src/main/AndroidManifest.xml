@@ -28,6 +28,7 @@
 
 
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -71,8 +72,15 @@
         <activity android:name=".HomeActivity" />
 
 
-        <receiver android:name=".NotificationReceiver" android:process=":remote" />
-
+<!--        <receiver android:name=".NotificationReceiver" android:process=":remote" />-->
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="your.package.name.NOTIFICATION_RECEIVER" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

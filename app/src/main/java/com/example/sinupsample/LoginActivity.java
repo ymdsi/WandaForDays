@@ -27,14 +27,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         activitySetup();
-        final MotionLayout motionLayout = findViewById(R.id.motion); // XMLのIDに合わせる
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                motionLayout.transitionToEnd();
-            }
-        }, 900); //秒数
+
     }
 
     private void activitySetup() {
