@@ -52,10 +52,10 @@ public class SpotFragment extends Fragment {
         searchView = view.findViewById(R.id.Search_Text);
 
         // ArrayAdapterの初期化
-//        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
 
         // ListViewにAdapterをセット
-//        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
 
         SpotImage_Button.setOnClickListener(new View.OnClickListener() {
